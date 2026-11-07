@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Gemini Flash — Invoice & Image Extractor</title>
+  <link rel="stylesheet" href="/static/css/styles.css">
+  <!-- CDN marked.js for fast Markdown parsing, with local fallback -->
+
+</head>
+<body>
+
+  <!-- Top Header Navigation -->
+  <header>
+    <div class="brand">
+      <div class="brand-icon">✨</div>
+      <div>
+        <div class="brand-title">Invoice & Document Extractor</div>
+      </div>
+    </div>
+  </header>
+
+  <main>
+    <!-- Hero Introduction -->
+    <section class="hero">
+      <h1>Extract Content from Images</h1>
+      <p>Upload invoices, receipts, bills, or any document to extract structured text, line items, and data points instantly.</p>
+    </section>
+
+    <!-- Error Alert Box -->
+    <div id="errorAlert" class="alert-error" style="display: none;">
+      <span style="font-size: 1.25rem;">⚠️</span>
+      <div>
+        <strong>Extraction Error</strong>
+        <span id="errorMessage"></span>
+      </div>
+    </div>
+
+    <!-- Upload Card -->
+    <section class="card">
+      <form id="uploadForm" action="/" method="POST" enctype="multipart/form-data">
+        
+        <!-- Drag & Drop Zone -->
+        <div id="dropzone" class="dropzone">
+          <svg class="dropzone-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.8" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z"></path>
+          </svg>
+          <div class="dropzone-title">Click to browse or drop image here</div>
+          <div class="dropzone-desc">Supports PNG, JPG, JPEG, WEBP, HEIC, TIFF (Max 20MB)</div>
+        </div>
+
+        <input type="file" id="fileInput" name="file" class="file-input" accept="image/*" required>
+
+        <!-- Selected File Preview Box -->
+        <div id="filePreviewCard" class="file-preview-card">
+          <img id="fileThumbnail" class="file-thumbnail" src="" alt="Thumbnail Preview">
+          <div class="file-info">
+            <div id="fileName" class="file-name">filename.png</div>
+            <div id="fileSize" class="file-size">0 KB</div>
+          </div>
+          <button type="button" id="btnRemove" class="btn-remove" title="Remove image">
+            <svg width="20" height="20" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
+            </svg>
+          </button>
+        </div>
+
+        <!-- Submit Button -->
+        <button type="submit" id="submitBtn" class="btn-primary" disabled>
+          <svg width="20" height="20" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"></path>
+          </svg>
+          <span id="submitBtnText">Extract Content</span>
+        </button>
+      </form>
+
+      <!-- Loading State -->
+      <div id="loadingIndicator" class="loading-indicator">
+        <div class="spinner"></div>
+        <div class="loading-text">Analyzing image</div>
+        <div class="loading-subtext">Extracting text, invoice details, line items, and totals</div>
+      </div>
+    </section>
+
+   <section id="resultsContainer" class="results-container" style="display: none;">
+
+     <!-- Additional comments: full width, last -->
+     <div id="additionalComments" class="card comments-card" style="display: none;">
+       <div class="result-card-header">
+         <div class="result-card-title">Additional Comments</div>
+       </div>
+       <ul id="commentsList" class="comments-list"></ul>
+     </div>
+  <!-- Left: image preview -->
+  <div class="card">
+    <div class="result-card-header">
+      <div class="result-card-title">Uploaded Image</div>
+    </div>
+    <div class="image-preview-wrapper">
+      <img id="resultImage" src="" alt="Processed Document Preview">
+    </div>
+  </div>
+
+  <!-- Right: extracted JSON -->
+  <div class="card">
+    <div class="result-card-header">
+      <div class="result-card-title">Extracted JSON</div>
+    </div>
+    <pre id="extractedContent" class="extracted-content-box"></pre>
+  </div>
+
+
+</section>
+  
+
+</main>
+
+  <script src="/static/js/app.js"></script>
+</body>
+</html>
+
